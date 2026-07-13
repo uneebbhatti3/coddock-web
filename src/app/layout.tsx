@@ -8,7 +8,7 @@ const polySans = localFont({
   src: [
     {
       path: "./fonts/polysanstrial-bulky.woff2",
-      weight: "400",
+      weight: "700",
       style: "normal",
     },
     {
@@ -18,7 +18,7 @@ const polySans = localFont({
     },
     {
       path: "./fonts/polysanstrial-neutral.woff2",
-      weight: "700",
+      weight: "400",
       style: "normal",
     },
   ],

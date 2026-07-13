@@ -1,7 +1,7 @@
 export default function HomePage() {
   return (
     <>
-      <h1>CodDock</h1>
+      <h1 className="text-2xl font-medium">CodDock</h1>
     </>
   );
 }
