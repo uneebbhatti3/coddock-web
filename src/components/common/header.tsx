@@ -13,7 +13,9 @@ export default function Header() {
       <header className="flex items-center justify-between py-5 sm:py-6">
         {/* Left */}
         <div className="flex items-center gap-10">
-          <CodDockLogo />
+          <Link href={"/"}>
+            <CodDockLogo />
+          </Link>
 
           <nav className="hidden xl:block">
             <Navigation />
