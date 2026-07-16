@@ -20,6 +20,7 @@ export function ModeToggle() {
       size="icon"
       aria-label="Toggle theme"
       onClick={handleToggle}
+      className={"hidden sm:flex"}
     >
       <Sun
         className={`h-[1.2rem] w-[1.2rem] transition-all ${

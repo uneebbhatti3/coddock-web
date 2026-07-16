@@ -3,6 +3,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme-provider";
+import Header from "@/components/common/header";
+import Footer from "@/components/common/footer";
 
 const polySans = localFont({
   src: [
@@ -91,7 +93,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <Header />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
