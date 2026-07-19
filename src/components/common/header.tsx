@@ -4,7 +4,6 @@ import CodDockLogo from "@/components/common/coddock-logo";
 import Navigation from "@/components/common/navigation";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
-import MobileNav from "./mobile-nav";
 import Container from "./container";
 
 export default function Header() {
@@ -34,7 +33,7 @@ export default function Header() {
             <Button variant="secondary">Sign up</Button>
           </Link>
 
-          <MobileNav />
+          {/* <MobileNav /> */}
         </div>
       </header>
     </Container>

@@ -10,7 +10,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-
 const navLinks = [
   {
     id: 1,
@@ -27,7 +26,7 @@ const navLinks = [
   {
     id: 3,
     label: "Learning Roadmaps",
-    link: "/learning-roadmaps",
+    link: "/roadmaps",
     icon: BookOpen,
   },
 ];
