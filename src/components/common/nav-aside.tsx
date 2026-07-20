@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, LayoutDashboard, Users } from "lucide-react";
+import { BookOpen, FolderKanban, LayoutDashboard, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -28,6 +28,12 @@ const navLinks = [
     label: "Learning Roadmaps",
     link: "/roadmaps",
     icon: BookOpen,
+  },
+  {
+    id: 4,
+    label: "Projects",
+    link: "/projects",
+    icon: FolderKanban,
   },
 ];
 
