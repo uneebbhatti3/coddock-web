@@ -4,9 +4,9 @@ export default function AuthBackground() {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden"
     >
-      <div className="absolute left-1/2 -top-64 size-[640px] -translate-x-1/2 rounded-full bg-primary/20 blur-[150px]" />
-      <div className="absolute -left-40 top-1/3 size-[380px] rounded-full bg-primary/10 blur-[120px]" />
-      <div className="absolute -right-40 bottom-10 size-[420px] rounded-full bg-primary/10 blur-[120px]" />
+      <div className="absolute left-1/2 -top-64 size-160 -translate-x-1/2 rounded-full bg-primary/20 blur-[150px]" />
+      <div className="absolute -left-40 top-1/3 size-95 rounded-full bg-primary/10 blur-[120px]" />
+      <div className="absolute -right-40 bottom-10 size-105 rounded-full bg-primary/10 blur-[120px]" />
 
       <div
         className="absolute inset-0 opacity-[0.32] dark:opacity-[0.2]"

@@ -1,0 +1,230 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  MEMBER
+  ADMIN
+}
+
+model User {
+  id String @id
+
+  name          String
+  email         String
+  emailVerified Boolean @default(false)
+  image         String?
+
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  username        String?
+  displayUsername String?
+  role            UserRole        @default(MEMBER)
+  sessions        Session[]
+  accounts        Account[]
+  userOnboarding  UserOnboarding?
+
+  @@unique([email])
+  @@unique([username])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+model UserOnboarding {
+  id String @id @default(cuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Step 1 — Background
+  background UserBackground
+
+  // Step 2 — Primary goal
+  primaryGoal PrimaryGoal
+
+  // Step 3 — Specialization
+  specialization Specialization
+
+  // Step 4 — Fundamental skill ratings
+  programmingFundamentals SkillLevel
+  problemSolving          SkillLevel
+  gitAndGitHub            SkillLevel
+  commandLine             SkillLevel
+  databases               SkillLevel
+  apisAndHttp             SkillLevel
+  testing                 SkillLevel
+  deployment              SkillLevel
+  systemDesign            SkillLevel
+
+  // Step 5 — Technologies
+  technologies         String[]
+  technologyExperience TechnologyExperience
+
+  // Step 6 — Project experience
+  projectExperience ProjectExperience
+  strongestProject  String?           @db.VarChar(500)
+
+  // Step 7 — Roadmap configuration
+  weeklyHours         WeeklyHours
+  targetTimeline      TargetTimeline
+  learningPreferences LearningPreference[]
+  roadmapIntensity    RoadmapIntensity
+
+  completedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([background])
+  @@index([primaryGoal])
+  @@index([specialization])
+  @@index([completedAt])
+  @@map("user_onboarding")
+}
+
+enum UserBackground {
+  STUDENT
+  SELF_TAUGHT
+  FRESH_GRADUATE
+  JUNIOR_DEVELOPER
+  CAREER_SWITCHER
+  FREELANCER
+}
+
+enum PrimaryGoal {
+  LEARN_PROGRAMMING
+  CHOOSE_SPECIALIZATION
+  BUILD_PROJECTS
+  FIND_INTERNSHIP
+  GET_FIRST_JOB
+  BECOME_FREELANCER
+  GET_REMOTE_JOB
+  UPSKILL_CAREER
+}
+
+enum Specialization {
+  FRONTEND
+  BACKEND
+  FULL_STACK
+  MOBILE
+  DEVOPS_CLOUD
+  DATA_ANALYSIS
+  DATA_SCIENCE
+  AI_ML
+  CYBERSECURITY
+  GAME_DEVELOPMENT
+  UI_UX
+  UNSURE
+}
+
+enum SkillLevel {
+  NEVER_USED
+  BASIC
+  COMFORTABLE
+  STRONG
+}
+
+enum TechnologyExperience {
+  TUTORIAL_ONLY
+  SMALL_PROJECTS
+  INDEPENDENT
+  PROFESSIONAL
+}
+
+enum ProjectExperience {
+  NO_PROJECT
+  TUTORIAL_PROJECTS
+  SMALL_INDEPENDENT_PROJECTS
+  FULL_STACK_PROJECTS
+  DEPLOYED_PROJECTS
+  REAL_USERS_CLIENTS
+}
+
+enum WeeklyHours {
+  ONE_TO_THREE
+  FOUR_TO_SEVEN
+  EIGHT_TO_FOURTEEN
+  FIFTEEN_TO_TWENTY
+  MORE_THAN_TWENTY
+}
+
+enum TargetTimeline {
+  ONE_MONTH
+  THREE_MONTHS
+  SIX_MONTHS
+  TWELVE_MONTHS
+  NO_DEADLINE
+}
+
+enum LearningPreference {
+  VIDEO_COURSES
+  DOCUMENTATION
+  BOOKS
+  PROJECTS
+  GUIDED_EXERCISES
+  CODING_CHALLENGES
+  COMMUNITY
+  MENTORSHIP
+}
+
+enum RoadmapIntensity {
+  LIGHT
+  BALANCED
+  INTENSIVE
+}

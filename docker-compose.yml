@@ -1,0 +1,32 @@
+name: coddock
+
+services:
+  postgres:
+    image: postgres:16-bookworm
+    container_name: coddock-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-coddock}
+      POSTGRES_USER: ${POSTGRES_USER:-coddock}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-coddock_dev_password}
+
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"
+
+    volumes:
+      - coddock_postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-coddock} -d ${POSTGRES_DB:-coddock}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+volumes:
+  coddock_postgres_data:

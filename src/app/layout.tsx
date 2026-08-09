@@ -4,16 +4,8 @@ import { cn } from "@/lib/utils";
 import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
-
-/**
- * Prevent SSR/CSR hydration mismatch issues by NOT rendering
- * browser-dependent logic or DOM-mutating extensions in this layout.
- * Ensure no client-only artifacts leak into the initial HTML.
- *
- * NOTE: The <button> nesting hydration error described in the prompt
- * should be addressed inside the relevant component (e.g. MobileNav/Button).
- * This <RootLayout> is correct; see comment at the bottom for advice.
- */
+import QueryProvider from "@/providers/query-provider";
+import { Toaster } from "@/components/ui/toast";
 
 const polySans = localFont({
   src: [
@@ -96,29 +88,20 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <TooltipProvider>{children}</TooltipProvider>
-        </ThemeProvider>
+        <QueryProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <TooltipProvider>
+              {children}
+              <Toaster />
+            </TooltipProvider>
+          </ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   );
 }
-
-/**
- * NOTE:
- * The hydration/invalid HTML error in your prompt—<button> cannot be a descendant of <button>—happens
- * in the MobileNav (inside Header → HomeLayout) component tree, likely due to Button nesting in a Sheet/Dialog trigger.
- *
- * To fully resolve the actual hydration bug, you must fix the markup in:
- *   - src/components/common/header.tsx (Header)
- *   - or in your MobileNav / Button implementations:
- *     - Ensure shadcn/ui <Button> is NOT rendered inside another <button> (use <span> or div as wrappers for icons).
- *   - Avoid rendering <SheetTrigger> or <DialogTrigger> using <button> when their children are also <Button>.
- *
- * This RootLayout is correct and NOT responsible for the hydration error.
- */
